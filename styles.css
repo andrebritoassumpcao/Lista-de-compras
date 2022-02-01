@@ -68,7 +68,7 @@ Global Styles
 }
 body {
   font-family: var(--ff-secondary);
-  background: var(--clr-grey-10);
+  background: #54BAB9;
   color: var(--clr-grey-1);
   line-height: 1.5;
   font-size: 0.875rem;
@@ -182,7 +182,7 @@ Grocery List
 ===============
 */
 .section-center {
-  background: var(--clr-white);
+  background: #FBF8F1;
   border-radius: var(--radius);
   box-shadow: var(--light-shadow);
   transition: var(--transition);
