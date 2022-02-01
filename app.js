@@ -16,7 +16,9 @@ let editID = "";
 // enviar
 form.addEventListener("submit", addItem);
 // limpar itens
-clearBtn.addEventListener("click",clearItems);
+clearBtn.addEventListener("click", clearItems);
+
+
 // ****** Funções **********
 function addItem(e) {
     e.preventDefault();
@@ -40,6 +42,10 @@ function addItem(e) {
             <i class="fas fa-trash"></i>
         </button>
     </div>`;
+        const deleteBtn = element.querySelector('.delete-btn');
+        const editBtn = element.querySelector('.edit-btn');
+        deleteBtn.addEventListener("click",deleteItem);
+        editBtn.addEventListener("click",editItem);
         // append child
         list.appendChild(element);
         // display alert
@@ -51,7 +57,11 @@ function addItem(e) {
         // set back to default
         setBackToDefault();
     } else if (value && editFlag) {
-        console.log("editando");
+        editElement.innerHTML = value;
+        displayAlert('valor editado', 'success');
+        // edit local storage
+        editLocalStorage(editID,value);
+        setBackToDefault();
     } else {
         displayAlert("por favor adicione um valor!", "danger");
     }
@@ -67,26 +77,54 @@ function displayAlert(text, action) {
         alert.classList.remove(`alert-${action}`);
     }, 1000);
 } // limpar itens
-function clearItems(){
+function clearItems() {
     const items = document.querySelectorAll(".grocery-item");
 
-    if(items.length > 0){
+    if (items.length > 0) {
         items.forEach(function (item) {
             list.removeChild(item);
         });
     }
     container.classList.remove("show-container")
     displayAlert("Lista vazia!", "danger");
+    setBackToDefault();
+    // localStorage.removeItem('list');
 }
-// set back to default
-function setBackToDefault(){
+// função editar
+function editItem(e) {
+    const element = e.currentTarget.parentElement.parentElement;
+// set edit item
+editElement = e.currentTarget.parentElement.previousElementSibling;
+// set form value
+grocery.value = editElement.innerHTML;
+editFlag = true;
+editID = element.dataset.id;
+submitBtn.textContent = "editar";
+}
+// função deletar
+function deleteItem(e) {
+const element = e.currentTarget.parentElement.parentElement;
+const id = element.dataset.id;
+list.removeChild(element);
+if(list.children.length === 0){
+    container.classList.remove("show-container");
+}
+displayAlert("item removido", "danger");
+setBackToDefault();
+// remove from local storage
+// removeFromLocalStorage(id);
+}
+// retornar ao padrão
+function setBackToDefault() {
     grocery.value = '';
     editFlag = false;
     editID = "";
     submitBtn.textContent = "submit";
 }
 // ****** Banco de Dados **********
-function addToLocalStorage(id,value){
+function addToLocalStorage(id, value) {
     console.log("Adicionado ao banco de dados!")
 }
+function removeFromLocalStorage(id) {}
+function editLocalStorage(id, value) {}
 // ****** Configurar Itens **********
